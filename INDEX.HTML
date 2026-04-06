@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="sunset">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinematic Theme Switcher — Environment System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════
+       SKY ENVIRONMENT LAYERS
+       ═══════════════════════════════════════════ -->
+  <div class="sky" id="sky">
+    <!-- Dynamic Gradient Background -->
+    <div class="sky__gradient" id="skyGradient"></div>
+
+    <!-- Sun Layer -->
+    <div class="sky__sun-container" id="sunContainer">
+      <div class="sun" id="sun">
+        <div class="sun__glow"></div>
+        <div class="sun__inner"></div>
+      </div>
+    </div>
+
+    <!-- Moon Layer -->
+    <div class="sky__moon-container" id="moonContainer">
+      <div class="moon" id="moon">
+        <div class="moon__glow"></div>
+        <div class="moon__crater moon__crater--1"></div>
+        <div class="moon__crater moon__crater--2"></div>
+        <div class="moon__crater moon__crater--3"></div>
+      </div>
+    </div>
+
+    <!-- Stars Layer -->
+    <div class="sky__stars" id="starsContainer"></div>
+
+    <!-- Shooting Stars Layer -->
+    <div class="sky__shooting-stars" id="shootingStars"></div>
+
+    <!-- Clouds Layer -->
+    <div class="sky__clouds" id="cloudsContainer"></div>
+
+    <!-- Birds Layer -->
+    <div class="sky__birds" id="birdsContainer"></div>
+
+    <!-- Aurora Effect (Night) -->
+    <div class="sky__aurora" id="aurora"></div>
+
+    <!-- Vignette -->
+    <div class="sky__vignette"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PARALLAX CONTAINER
+       ═══════════════════════════════════════════ -->
+  <div class="parallax-wrapper" id="parallax">
+
+    <!-- ═══════════════════════════════════════════
+         SOUND TOGGLE
+         ═══════════════════════════════════════════ -->
+    <button class="sound-toggle" id="soundToggle" aria-label="Toggle ambient sound">
+      <svg class="sound-toggle__icon sound-toggle__icon--off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <line x1="23" y1="9" x2="17" y2="15"/>
+        <line x1="17" y1="9" x2="23" y2="15"/>
+      </svg>
+      <svg class="sound-toggle__icon sound-toggle__icon--on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      </svg>
+    </button>
+
+    <!-- ═══════════════════════════════════════════
+         THEME SELECTOR PANEL
+         ═══════════════════════════════════════════ -->
+    <div class="theme-selector" id="themeSelector">
+      <button class="theme-selector__trigger" id="themeTrigger" aria-haspopup="true" aria-expanded="false" aria-label="Open theme selector">
+        <span class="theme-selector__trigger-icon" id="themeIcon">
+          <!-- Icon injected by JS -->
+        </span>
+        <span class="theme-selector__trigger-label">Theme</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+      <div class="theme-selector__panel" id="themePanel" role="menu">
+        <button class="theme-selector__option" data-theme="night" role="menuitem" aria-checked="false">
+          <span class="theme-selector__option-icon">🌙</span>
+          <span class="theme-selector__option-text">
+            <span class="theme-selector__option-label">Midnight</span>
+            <span class="theme-selector__option-desc">Stars, moon & aurora</span>
+          </span>
+          <span class="theme-selector__option-check"></span>
+        </button>
+
+        <button class="theme-selector__option" data-theme="sunset" role="menuitem" aria-checked="false">
+          <span class="theme-selector__option-icon">🌅</span>
+          <span class="theme-selector__option-text">
+            <span class="theme-selector__option-label">Sunset</span>
+            <span class="theme-selector__option-desc">Warm golden hour</span>
+          </span>
+          <span class="theme-selector__option-check"></span>
+        </button>
+
+        <button class="theme-selector__option" data-theme="softlight" role="menuitem" aria-checked="false">
+          <span class="theme-selector__option-icon">🌤️</span>
+          <span class="theme-selector__option-text">
+            <span class="theme-selector__option-label">Soft Light</span>
+            <span class="theme-selector__option-desc">Clean & minimal</span>
+          </span>
+          <span class="theme-selector__option-check"></span>
+        </button>
+
+        <button class="theme-selector__option" data-theme="colorful" role="menuitem" aria-checked="false">
+          <span class="theme-selector__option-icon">🌈</span>
+          <span class="theme-selector__option-text">
+            <span class="theme-selector__option-label">Colorful</span>
+            <span class="theme-selector__option-desc">Vibrant gradients</span>
+          </span>
+          <span class="theme-selector__option-check"></span>
+        </button>
+
+        <button class="theme-selector__option" data-theme="professional" role="menuitem" aria-checked="false">
+          <span class="theme-selector__option-icon">💼</span>
+          <span class="theme-selector__option-text">
+            <span class="theme-selector__option-label">Professional</span>
+            <span class="theme-selector__option-desc">Corporate clean</span>
+          </span>
+          <span class="theme-selector__option-check"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         MAIN CONTENT
+         ═══════════════════════════════════════════ -->
+    <main class="container">
+
+      <!-- Header / Nav -->
+      <header class="header">
+        <div class="header__brand">
+          <div class="header__logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+              <path d="M2 12h20"/>
+            </svg>
+          </div>
+          <span class="header__title">Aetheria</span>
+        </div>
+
+        <nav class="header__nav">
+          <a href="#" class="header__nav-link">Features</a>
+          <a href="#" class="header__nav-link">Showcase</a>
+          <a href="#" class="header__nav-link">About</a>
+        </nav>
+      </header>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero__badge" id="heroBadge">🌌 Cinematic Environment System</div>
+        <h1 class="hero__title">
+          Switch Themes Like
+          <span class="hero__title--accent" id="heroAccent">Changing Time</span>
+        </h1>
+        <p class="hero__subtitle" id="heroSubtitle">
+          Experience a living, breathing environment where every theme transition
+          tells a story. Watch the sun set, stars emerge, and the sky transform
+          in real-time.
+        </p>
+
+        <div class="hero__actions">
+          <button class="btn btn--primary btn--lg" onclick="window.themeManager.switchTheme('night')">
+            <span>Try Midnight Mode</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+          <button class="btn btn--outline btn--lg" onclick="window.themeManager.switchTheme('sunset')">
+            View Sunset Mode
+          </button>
+        </div>
+
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-value">5</span>
+            <span class="hero__stat-label">Themes</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">60fps</span>
+            <span class="hero__stat-label">Smooth</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">0</span>
+            <span class="hero__stat-label">Dependencies</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cards Section -->
+      <section class="cards-section">
+        <h2 class="section-title">Environment Components</h2>
+        <div class="cards-grid">
+
+          <article class="card card--glass">
+            <div class="card__header">
+              <div class="card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              </div>
+              <span class="card__tag" id="cardTag1">Night</span>
+            </div>
+            <h3 class="card__title">Midnight Sky</h3>
+            <p class="card__desc">
+              Deep space gradient with animated stars, shooting meteors,
+              and a glowing moon with aurora effects.
+            </p>
+            <div class="card__features">
+              <span class="feature">✨ Stars</span>
+              <span class="feature">🌙 Moon</span>
+              <span class="feature">🌠 Meteors</span>
+            </div>
+          </article>
+
+          <article class="card card--elevated">
+            <div class="card__header">
+              <div class="card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                </svg>
+              </div>
+              <span class="card__tag">Day</span>
+            </div>
+            <h3 class="card__title">Sunset Paradise</h3>
+            <p class="card__desc">
+              Warm golden hour sky with animated sun movement,
+              flying birds, and soft drifting clouds.
+            </p>
+            <div class="card__features">
+              <span class="feature">☀️ Sun</span>
+              <span class="feature">🐦 Birds</span>
+              <span class="feature">☁️ Clouds</span>
+            </div>
+          </article>
+
+          <article class="card card--interactive">
+            <div class="card__header">
+              <div class="card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+              </div>
+              <span class="card__tag">All</span>
+            </div>
+            <h3 class="card__title">Parallax Depth</h3>
+            <p class="card__desc">
+              Move your mouse to feel depth. Sky layers respond
+              with parallax movement for an immersive 3D feel.
+            </p>
+            <div class="card__controls">
+              <button class="btn btn--primary btn--sm" onclick="window.themeManager.cycleTheme()">
+                Cycle Themes
+              </button>
+              <button class="btn btn--ghost btn--sm" id="toggleParallax">
+                Parallax: ON
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>
+          <span id="currentThemeLabel">Sunset</span> Mode Active —
+          <span id="soundStatus">Sound Off</span>
+        </p>
+        <div class="footer__meta">
+          <span>localStorage ✓</span>
+          <span>System Detection ✓</span>
+          <span>Parallax ✓</span>
+        </div>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- Transition Overlay -->
+  <div class="transition-overlay" id="transitionOverlay"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
